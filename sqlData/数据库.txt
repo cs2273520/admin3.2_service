@@ -1,0 +1,45 @@
+1、menus
+{
+  "_id": {
+    "$oid": "63abd6b4d439c0592cfc3457"
+  },
+  "authName": "机构管理",
+  "children": [
+    {
+      "authName": "机构列表",
+      "children": [
+        {
+          "name": "机构1"
+        },
+        {
+          "name": "机构2"
+        }
+      ],
+      "path": "mechanism"
+    }
+  ],
+  "icon": "mechanism"
+}
+2、users
+{
+  "_id": {
+    "$oid": "63abd62fd439c0592cfc3451"
+  },
+  "username": "admin",
+  "password": "admin",
+  "authority": "admin"
+}
+3、mechansim
+{
+  "_id": {
+    "$oid": "63ad3560031d976b00e01881"
+  },
+  "name": "广州养老机构1",
+  "type": "集体所有制",
+  "submitDate": "1642368045",
+  "auditDate": "1644661245",
+  "owner": "老板",
+  "phone": "15xxxxxxxxx31",
+  "address": "广东省广州市xxq区xx路xx号xxxx详细地址",
+  "__v": 0
+}

@@ -1,0 +1,41 @@
+[{
+  "_id": {
+    "$oid": "63abd6b4d439c0592cfc3457"
+  },
+  "authName": "机构管理",
+  "children": [
+    {
+      "authName": "机构列表",
+      "children": [
+        {
+          "name": "机构1"
+        },
+        {
+          "name": "机构2"
+        }
+      ],
+      "path": "mechanism"
+    }
+  ],
+  "icon": "mechanism"
+},{
+  "_id": {
+    "$oid": "63abd6b4d439c0592cfc1127"
+  },
+  "authName": "人员管理",
+  "children": [
+    {
+      "authName": "人员列表",
+      "children": [
+        {
+          "name": "人员1"
+        },
+        {
+          "name": "人员2"
+        }
+      ],
+      "path": "users"
+    }
+  ],
+  "icon": "users"
+}]
