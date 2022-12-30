@@ -8,6 +8,7 @@ const mechanism = require("./sql/mechanism");
 const md5 = require("md5");
 const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
+const multer = require("multer");
 //跨域 谁都跨域访问我的服务器 即便vue和我不是一个域名和端口
 //练习中使用很完美 因为我不是公网ip 也就只能我一个人访问
 app.use(cors());
@@ -47,11 +48,7 @@ const checkToken = function (req, res, next) {
 const jwt_secret = "xiaochangfu";
 // 登录
 app.post("/api/Login", async (req, res) => {
-  // let mobile = req.query.mobile
-  // console.log(req.body);
   let { username, password } = req.body;
-  console.log("username", username);
-  console.log("password", password);
   let result = await user.findOne({
     username,
     password,
@@ -186,6 +183,22 @@ app.post("/api/editMechansim", checkToken, async (req, res) => {
     });
   }
 });
+//删除密码
+app.post("/api/checkAuthority", checkToken, async (req, res) => {
+  const data = req.body;
+  const result = await user.find({ authority: data });
+  if (result) {
+    res.send({
+      status: 200,
+      info: "鉴权成功",
+    });
+  } else {
+    res.send({
+      status: 403,
+      info: "鉴权失败",
+    });
+  }
+});
 // 删除机构信息
 app.post("/api/delMechansim", checkToken, async (req, res) => {
   const data = req.body;
@@ -202,6 +215,35 @@ app.post("/api/delMechansim", checkToken, async (req, res) => {
     });
   }
 });
+
+//图片上传
+const storage = multer.diskStorage({
+  destination: function (req, file, cd) {
+    cd(null, "./data/Mechansim");
+  },
+  filename: function (req, file, cd) {
+    console.log("文件信息", file);
+    console.log("文件参数", req.body);
+    const name = req.body.name;
+    // const type = file.originalname.replace(/.+\./, ".");
+    cd(null, name + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+app.post(
+  "/api/uploadImages",
+  upload.array("file", 10),
+  function (req, res, next) {
+    // 获取文件信息
+    const data = req.files;
+    //返回前端
+    res.send(data);
+  }
+);
+app.use(express.static(__dirname + "/data"));
+//图片上传
 
 // 注册
 app.post("/Register", passwdCrypt, async (req, res) => {
