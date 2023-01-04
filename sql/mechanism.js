@@ -15,6 +15,7 @@ const MechanismSchema = new db.mongoose.Schema({
   },
   auditDate: {
     type: String,
+    default: 'null',
     required: true,
   },
   owner: {
@@ -29,14 +30,14 @@ const MechanismSchema = new db.mongoose.Schema({
     type: String,
     required: true,
   },
-//   mechanismImg: {
-//     type: String,
-//     required: true,
-//   },
-//   ownerImg: {
-//     type: String,
-//     required: true,
-//   },
+  image1: {
+    type: String,
+    required: true,
+  },
+  image2: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = db.mongoose.model("mechanism", MechanismSchema);

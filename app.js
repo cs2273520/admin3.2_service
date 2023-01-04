@@ -145,7 +145,7 @@ app.get("/api/getMechanism", checkToken, async (req, res) => {
 //添加机构
 app.post("/api/addMechansim", checkToken, async (req, res) => {
   const data = req.body;
-  console.log(data);
+  console.log("机构信息", data);
   const result = await mechanism.findOne({ name: data.name });
   if (result) {
     res.send({
@@ -154,6 +154,7 @@ app.post("/api/addMechansim", checkToken, async (req, res) => {
     });
   } else {
     const result1 = await mechanism.insertMany(data);
+
     if (result1) {
       res.send({
         status: 200,
@@ -215,15 +216,14 @@ app.post("/api/delMechansim", checkToken, async (req, res) => {
     });
   }
 });
-
 //图片上传
 const storage = multer.diskStorage({
   destination: function (req, file, cd) {
     cd(null, "./data/Mechansim");
   },
   filename: function (req, file, cd) {
-    console.log("文件信息", file);
-    console.log("文件参数", req.body);
+    // console.log("文件信息", file);
+    // console.log("文件参数", req.body);
     const name = req.body.name;
     // const type = file.originalname.replace(/.+\./, ".");
     cd(null, name + file.originalname);
@@ -238,11 +238,11 @@ app.post(
   function (req, res, next) {
     // 获取文件信息
     const data = req.files;
-    //返回前端
-    res.send(data);
+    console.log("图片信息", data);
+    // 将图片路径保存在数据库;
+    mechanism.updateMany({ image1: data.filename });
   }
 );
-app.use(express.static(__dirname + "/data"));
 //图片上传
 
 // 注册
@@ -317,29 +317,9 @@ app.get("/userInfo", checkToken, (req, res) => {
     info2: req.query.user_info,
   });
 });
-
-// 获取用户购物车
-app.get("/getUserShopCar", (req, res) => {
-  console.log("我进来了用户购物车数据");
-  console.log(req.query.usermobile);
-});
-
-// 添加商品到购物车
-app.get("/addShop", checkToken, async (req, res) => {
-  console.log("我进来了用户购物车数据111");
-  let mobile = req.query.user_info.mobile;
-  let id = req.query.id;
-  console.log(mobile);
-  console.log(id);
-  let result1 = await user.find({
-    shops: { $elemMatch: { id: id } },
-    mobile: mobile,
-  });
-  if (result1) {
-    await user.updateMany({ "shops.shop_num": 2 });
-  } else {
-  }
-});
+const path = require("path");
+// 获取静态文件路径
+app.use("/data", express.static(path.join(__dirname + "/data/Mechansim")));
 
 app.listen(port, () => {
   console.log("后端端口启动在" + port + "了!");
